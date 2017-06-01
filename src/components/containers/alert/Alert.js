@@ -122,6 +122,12 @@ function renderCallsToAction(callsToAction) {
     <CallsToAction>
       {callsToAction.map((callToAction, index) => {
         const buttonStyleType = index === 0 ? 'primary' : 'default';
+        if (React.isValidElement(callToAction)) {
+          return React.cloneElement(callToAction, {
+            styleType: buttonStyleType,
+            key: index
+          });
+        }
 
         return (
           <Button
