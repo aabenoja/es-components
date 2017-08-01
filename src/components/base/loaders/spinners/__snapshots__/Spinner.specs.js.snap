@@ -1,0 +1,5 @@
+exports[`spinner component renders correctly 1`] = `
+<div
+  className="foo bar iPWAxi"
+  size={50} />
+`;

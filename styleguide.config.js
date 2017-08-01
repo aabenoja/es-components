@@ -2,9 +2,7 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const version = require('./package.json').version;
-const styleguidePaths = require('./config/paths');
-
-const baseComponentDir = styleguidePaths.baseComponentDir;
+const { baseComponentDir, publicDir } = require('./config/paths');
 
 module.exports = {
   assetsDir: 'public',
@@ -14,15 +12,20 @@ module.exports = {
   sections: [
     {
       name: 'Base',
-      components: function() {
-        return [path.join(baseComponentDir, 'base/icons/Icon.js')];
-      },
+      components: () => [
+        path.join(baseComponentDir, 'base/icons/Icon.js')
+      ],
+      sections: [{
+        name: 'Loaders',
+        content: path.join(baseComponentDir, 'base/loaders/Loaders.md'),
+        components: path.join(baseComponentDir, 'base/loaders/**/*.js')
+      }]
     },
-	{
-	  name: 'Containers',
-	  content: path.join(baseComponentDir, 'containers/Containers.md'),
-	  components: path.join(baseComponentDir, 'containers/**/*.js')
-	},
+    {
+      name: 'Containers',
+      content: path.join(baseComponentDir, 'containers/Containers.md'),
+      components: path.join(baseComponentDir, 'containers/**/*.js')
+    },
     {
       name: 'Controls',
       components: path.join(baseComponentDir, '/controls/**/*.js')
@@ -53,7 +56,7 @@ module.exports = {
     webpackConfig.plugins.push(
       new CopyWebpackPlugin([
         {
-          from: path.join(styleguidePaths.publicDir, 'webfonts'),
+          from: path.join(publicDir, 'webfonts'),
           to:  path.join(webpackConfig.output.path, 'webfonts')
         }
       ])

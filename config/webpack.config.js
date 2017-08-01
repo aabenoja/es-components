@@ -1,8 +1,6 @@
 const path = require('path');
 
-const styleguidePaths = require('./paths');
-
-const baseComponentDir = styleguidePaths.baseComponentDir;
+const { baseComponentDir, publicDir, srcDir } = require('./paths');
 
 module.exports = {
   module: {
@@ -12,8 +10,15 @@ module.exports = {
       use: ['babel-loader']
     }, {
       test: /\.less$/,
-      include: [path.join(styleguidePaths.srcDir, 'styles'), baseComponentDir],
+      include: [path.join(srcDir, 'styles'), baseComponentDir],
       use: ['style-loader', 'css-loader', 'less-loader']
+    }, {
+      test: /\.eot$|\.ttf$|\.svg$|\.woff$/,
+      include: [
+        path.join(publicDir, 'webfonts'),
+        path.join(publicDir, 'images')
+      ],
+      use: ['file-loader']
     }]
   }
 };

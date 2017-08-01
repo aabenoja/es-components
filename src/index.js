@@ -1,4 +1,5 @@
 export Icon from './components/base/icons/Icon';
+export Spinner from './components/base/loaders/spinners/Spinner';
 
 export Notification from './components/containers/notification/Notification';
 export Drawer from './components/containers/drawer/Drawer';
