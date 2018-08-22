@@ -11,3 +11,12 @@
 # es-components-wtw-theme
 
 [![npm version](https://badge.fury.io/js/es-components-wtw-theme.svg)](https://badge.fury.io/js/es-components-wtw-theme)
+
+# Version Bumps
+It is a goal of this project to keep the versions across all the packages in this repo in sync. To that end, please remember to use
+
+```shell
+npm run version_only
+```
+
+when updating any of our packages.
