@@ -19,20 +19,29 @@ const TextBoxLabel = styled(Label)`
 `;
 
 // apply styles to masked input, but remove props it doesn't use
-const StyledMaskedInput = InputBase.withComponent(props => (
-  <MaskedInput
-    {...omit(props, [
-      'borderColor',
-      'boxShadow',
-      'focusBorderColor',
-      'focusBoxShadow',
-      'hasAppend',
-      'hasPrepend',
-      'initialValue',
-      'hasValidationIcon'
-    ])}
-  />
-));
+const StyledMaskedInput = InputBase.withComponent(
+  React.forwardRef((props, forwardedRef) => (
+    <MaskedInput
+      {...omit(props, [
+        'borderColor',
+        'boxShadow',
+        'focusBorderColor',
+        'focusBoxShadow',
+        'hasAppend',
+        'hasPrepend',
+        'initialValue',
+        'hasValidationIcon'
+      ])}
+      render={(maskedRef, maskedProps) => {
+        const setRef = ref => {
+          maskedRef(ref);
+          forwardedRef(ref);
+        };
+        return <input ref={setRef} {...maskedProps} />;
+      }}
+    />
+  ))
+);
 
 /* eslint-disable no-confusing-arrow */
 const CommonInputStyles = css`
@@ -150,24 +159,6 @@ const Textbox = props => {
   const maskArgs =
     maskType === 'custom' && customMask ? customMask : inputMaskType[maskType];
 
-  if (maskType !== 'none') {
-    maskArgs.render = (ref, maskedProps) => {
-      const setRef = inputElement => {
-        // Failing to call ref from the `react-text-mask` render prop will cause
-        // `react-text-mask` to break, as it needs the ref to function
-        ref(inputElement);
-        inputRef(inputElement);
-      };
-
-      // based on ReactTextMask.defaultProps.render since we don't normally use
-      // the render prop
-      // https://github.com/text-mask/text-mask/blob/72ed2c40ecd99817b946f15d3e75a4944b364f4e/react/src/reactTextMask.js#L89
-      return <input ref={setRef} {...maskedProps} />;
-    };
-  } else {
-    additionalTextProps.innerRef = inputRef;
-  }
-
   const addOnTextColor = hasValidationIcon
     ? theme.colors.white
     : theme.colors.gray8;
@@ -197,6 +188,7 @@ const Textbox = props => {
           hasAppend={hasAppend}
           hasPrepend={hasPrepend}
           id={textboxId}
+          innerRef={inputRef}
           name={inputName}
           hasValidationIcon={hasValidationIcon}
           type="text"
