@@ -8,21 +8,9 @@ import { injectGlobal, withTheme } from 'styled-components';
 import datepickerStyles from './datePickerStyles';
 import Textbox from '../../controls/textbox/Textbox';
 
-class DateTextbox extends React.Component {
-  static propTypes = Textbox.propTypes; // eslint-disable-line react/forbid-foreign-prop-types
-
-  setRef = ref => {
-    this.inputElement = ref;
-  };
-
-  focus() {
-    this.inputElement.focus();
-  }
-
-  render() {
-    return <Textbox inputRef={this.setRef} {...this.props} />;
-  }
-}
+const DateTextbox = React.forwardRef((props, ref) => (
+  <Textbox inputRef={ref} {...props} />
+));
 
 export const DatePicker = props => {
   const {
@@ -132,8 +120,7 @@ DatePicker.defaultProps = {
   selectsStart: false,
   selectsEnd: false,
   startDate: null,
-  endDate: null,
-  validationState: 'default'
+  endDate: null
 };
 
 const UncontrolledDatePicker = uncontrollable(DatePicker, {
