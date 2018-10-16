@@ -37,6 +37,7 @@ import { Component } from 'es-components/lib';
     rel="stylesheet">
   <!-- You must include React and Styled Components. ES Components depends on those packages. -->
   <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/styled-components/dist/styled-components.min.js"></script>
   <script src="https://unpkg.com/es-components/bundle/main.min.js"></script>
 </head>
